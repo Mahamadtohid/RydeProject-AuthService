@@ -1,9 +1,9 @@
 package com.example.RydeProject_AuthService.controllers;
 
 
+import com.example.RydeProject_AuthService.dtos.PassengerDto;
 import com.example.RydeProject_AuthService.dtos.PassengerSignupRequestDto;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,8 +16,10 @@ import com.example.RydeProject_AuthService.dtos.PassengerSignupRequestDto;
 public class AuthController {
 
     @PostMapping("/signup/passenger")
-    public ResponseEntity<?> signUp(@RequestBody PassengerSignupRequestDto){
+    public ResponseEntity<PassengerDto> signUp(@RequestBody PassengerSignupRequestDto passengerSignupRequestDto){
 
-        return new ResponseEntity<>("Hello" , HttpStatus.OK);
+//        return new ResponseEntity<>("Hello" , HttpStatus.OK);
+
+        return null;
     }
 }
