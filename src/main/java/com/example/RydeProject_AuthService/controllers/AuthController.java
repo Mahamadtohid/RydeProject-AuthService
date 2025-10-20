@@ -6,10 +6,7 @@ import com.example.RydeProject_AuthService.dtos.PassengerSignupRequestDto;
 import com.example.RydeProject_AuthService.services.AuthService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import com.example.RydeProject_AuthService.dtos.PassengerSignupRequestDto;
 
 @RestController
@@ -28,5 +25,13 @@ public class AuthController {
         PassengerDto response = authService.signupPassenger(passengerSignupRequestDto);
 
         return new ResponseEntity<>(response , HttpStatus.CREATED);
+    }
+
+    @GetMapping("/signin/passenger")
+    public ResponseEntity<?> signIn(){
+
+//        PassengerDto response = authService.signupPassenger();
+
+        return new ResponseEntity<>(10 , HttpStatus.CREATED);
     }
 }

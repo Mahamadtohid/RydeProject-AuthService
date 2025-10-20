@@ -16,7 +16,9 @@ public class SpringSecurityBCrypt{
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
-       return http.csrf(AbstractHttpConfigurer::disable).authorizeHttpRequests(auth -> auth.requestMatchers("/api/v1/auth/signup/*").permitAll())
+       return http.csrf(AbstractHttpConfigurer::disable).authorizeHttpRequests(auth -> auth.requestMatchers("/api/v1/auth/signup/*").permitAll()
+
+                       .requestMatchers("/api/v1/auth/signin/*").permitAll())
                .build();
     }
 
