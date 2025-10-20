@@ -1,6 +1,7 @@
 package com.example.RydeProject_AuthService.services;
 
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 //import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -9,9 +10,11 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
+import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Function;
 
 @Service
 public class JwtService implements CommandLineRunner {
@@ -24,21 +27,66 @@ public class JwtService implements CommandLineRunner {
 
 
     //creates a brand new JWT token based on payload
-    private String createToken(Map<String , Object> payload , String username){
+    private String createToken(Map<String , Object> payload , String email){
 
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + expiry * 1000L);
-//        SecretKey key = Keys./hma;
+//        SecretKey key = Keys.hmacShaKeyFor(SECRET.getBytes(StandardCharsets.UTF_8));
 
         return Jwts.builder()
                 .setClaims(payload)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(expiryDate)
-                .setSubject(username)
+                .setSubject(email)
                 .signWith(SignatureAlgorithm.HS256 , SECRET)
                 .compact();
 
     }
+
+
+    private Claims extractPayload(String token){
+
+        Claims claims = Jwts.parser().setSigningKey(SECRET)
+                .parseClaimsJws(token)
+                .getBody();
+
+        return claims;
+
+    }
+
+
+
+    public <T>  T extractClaim(String token , Function<Claims , T> claimResolver){
+        final Claims claims = extractPayload(token);
+
+        return claimResolver.apply(claims);
+    }
+
+
+    private String extractEmail(String token){
+
+        return extractClaim(token , Claims::getSubject);
+    }
+
+
+    private Date extractExpirationDate(String token){
+        return extractClaim(token , Claims::getExpiration);
+
+    }
+
+
+
+    private Boolean isTokenExpired(String token){
+
+        return extractExpirationDate(token).before((new Date()));
+    }
+
+    private Boolean validateToken(String token , String email){
+    final String userEmailFetchedEmail = extractEmail(token);
+    return (userEmailFetchedEmail.equals(email)) && !isTokenExpired(token);
+    }
+
+
 
     @Override
     public void run(String... args) throws Exception {
