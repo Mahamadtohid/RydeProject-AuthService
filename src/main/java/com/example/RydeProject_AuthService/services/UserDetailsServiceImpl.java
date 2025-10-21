@@ -3,6 +3,7 @@ package com.example.RydeProject_AuthService.services;
 import com.example.RydeProject_AuthService.helpers.AuthPassengerDetails;
 import com.example.RydeProject_AuthService.models.Passenger;
 import com.example.RydeProject_AuthService.repositories.PassengerRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -17,11 +18,9 @@ import java.util.Optional;
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-    private final PassengerRepository passengerRepository;
+    @Autowired
+    private PassengerRepository passengerRepository; // autowired because we are using this in SpringSecurityBcrypt class also
 
-    public UserDetailsServiceImpl(PassengerRepository passengerRepository) {
-        this.passengerRepository = passengerRepository;
-    }
 
 
     @Override
