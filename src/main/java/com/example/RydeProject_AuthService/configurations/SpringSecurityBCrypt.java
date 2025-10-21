@@ -15,10 +15,12 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 @EnableWebSecurity
-public class SpringSecurityBCrypt{
+public class SpringSecurityBCrypt implements WebMvcConfigurer {
 
 
     @Bean
@@ -29,8 +31,10 @@ public class SpringSecurityBCrypt{
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
        return http.csrf(AbstractHttpConfigurer::disable)
+               .cors(cors -> cors.disable())
                .authorizeHttpRequests(auth -> auth.requestMatchers("/api/v1/auth/signup/*").permitAll()
                        .requestMatchers("/api/v1/auth/signin/*").permitAll())
+//               .exceptionHandling()
                .build();
     }
 
@@ -61,5 +65,10 @@ public class SpringSecurityBCrypt{
     // create an Bean object of whatever we are going to create here
     public BCryptPasswordEncoder bCryptPasswordEncoder(){
         return new BCryptPasswordEncoder();
+    }
+
+    @Override
+    public void addCorsMappings(CorsRegistry registry){
+        registry.addMapping("/**").allowedOriginPatterns("*").allowedMethods("GET", "POST" ,"PUT","DELETE");
     }
 }

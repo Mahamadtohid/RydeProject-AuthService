@@ -27,7 +27,7 @@ public class JwtService implements CommandLineRunner {
 
 
     //creates a brand new JWT token based on payload
-    private String createToken(Map<String , Object> payload , String email){
+    public String createToken(Map<String , Object> payload , String email){
 
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + expiry * 1000L);
@@ -43,8 +43,13 @@ public class JwtService implements CommandLineRunner {
 
     }
 
+    public String createToken(String email){
 
-    private Claims extractPayload(String token){
+        return createToken(new HashMap<>() , email);
+    }
+
+
+    public Claims extractPayload(String token){
 
         Claims claims = Jwts.parser().setSigningKey(SECRET)
                 .parseClaimsJws(token)
@@ -63,25 +68,25 @@ public class JwtService implements CommandLineRunner {
     }
 
 
-    private String extractEmail(String token){
+    public String extractEmail(String token){
 
         return extractClaim(token , Claims::getSubject);
     }
 
 
-    private Date extractExpirationDate(String token){
+    public Date extractExpirationDate(String token){
         return extractClaim(token , Claims::getExpiration);
 
     }
 
 
 
-    private Boolean isTokenExpired(String token){
+    public Boolean isTokenExpired(String token){
 
         return extractExpirationDate(token).before((new Date()));
     }
 
-    private Boolean validateToken(String token , String email){
+    public Boolean validateToken(String token , String email){
     final String userEmailFetchedEmail = extractEmail(token);
     return (userEmailFetchedEmail.equals(email)) && !isTokenExpired(token);
     }
