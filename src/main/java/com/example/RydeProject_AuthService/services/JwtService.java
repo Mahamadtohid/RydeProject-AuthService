@@ -88,6 +88,7 @@ public class JwtService implements CommandLineRunner {
 
     public Boolean validateToken(String token , String email){
     final String userEmailFetchedEmail = extractEmail(token);
+
     return (userEmailFetchedEmail.equals(email)) && !isTokenExpired(token);
     }
 

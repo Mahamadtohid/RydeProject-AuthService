@@ -51,7 +51,7 @@ public class AuthController {
 
     @PostMapping("/signin/passenger")
     public ResponseEntity<?> signIn(@RequestBody AuthRequestDto authRequestDto, HttpServletRequest request, HttpServletResponse response) {
-        System.out.println("Request Received...........");
+
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(authRequestDto.getEmail(), authRequestDto.getPassword()));
 
@@ -74,6 +74,7 @@ public class AuthController {
 
     @GetMapping("/validate")
     public ResponseEntity<?> validateToken(HttpServletRequest request) {
+        System.out.println("Request Received...........");
         Cookie[] cookies = request.getCookies();
         if (cookies != null) {
             for (Cookie cookie : cookies) {

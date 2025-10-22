@@ -1,6 +1,8 @@
 package com.example.RydeProject_AuthService.configurations;
 
+import com.example.RydeProject_AuthService.filters.JwtAuthFilter;
 import com.example.RydeProject_AuthService.services.UserDetailsServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -15,6 +17,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -23,6 +26,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class SpringSecurityBCrypt implements WebMvcConfigurer {
 
 
+    @Autowired
+    private JwtAuthFilter jwtAuthFilter;
+
     @Bean
     public UserDetailsService userDetailsService(){
         return new UserDetailsServiceImpl();
@@ -30,11 +36,18 @@ public class SpringSecurityBCrypt implements WebMvcConfigurer {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
-       return http.csrf(AbstractHttpConfigurer::disable)
+       return http.csrf(csrf -> csrf.disable())
                .cors(cors -> cors.disable())
-               .authorizeHttpRequests(auth -> auth.requestMatchers("/api/v1/auth/signup/**").permitAll()
-                       .requestMatchers("/api/v1/auth/signin/**" , "/api/v1/auth/validate").permitAll())
-//               .exceptionHandling()
+               .authorizeHttpRequests(auth ->
+                       auth
+                               .requestMatchers("/api/v1/auth/signup/*").permitAll()
+                               .requestMatchers("/api/v1/auth/signin/*").permitAll()
+//                               .requestMatchers("/api/v1/auth/validate/**").authenticated()
+               )
+
+
+               .authenticationProvider(authenticationProvider())
+               .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
                .build();
     }
 
