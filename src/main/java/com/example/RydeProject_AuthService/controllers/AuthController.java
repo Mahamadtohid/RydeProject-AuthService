@@ -1,9 +1,7 @@
 package com.example.RydeProject_AuthService.controllers;
 
 
-import com.example.RydeProject_AuthService.dtos.AuthRequestDto;
-import com.example.RydeProject_AuthService.dtos.PassengerDto;
-import com.example.RydeProject_AuthService.dtos.PassengerSignupRequestDto;
+import com.example.RydeProject_AuthService.dtos.*;
 import com.example.RydeProject_AuthService.services.AuthService;
 import com.example.RydeProject_AuthService.services.JwtService;
 import jakarta.servlet.http.HttpServletResponse;
@@ -55,7 +53,7 @@ public class AuthController {
 
         if(authentication.isAuthenticated()){
             String jwtToken = jwtService.createToken(authRequestDto.getEmail());
-            ResponseCookie cookie = ResponseCookie.from("JwtToken" , jwtToken)
+            ResponseCookie cookie = ResponseCookie.from("Jwt Token", jwtToken)
                             .httpOnly(true)
                             .secure(false)
                             .path("/")
@@ -63,7 +61,7 @@ public class AuthController {
                             .build();
             response.setHeader(HttpHeaders.SET_COOKIE , cookie.toString());
             System.out.println(jwtToken);
-            return new ResponseEntity<>("Success" , HttpStatus.OK);
+            return new ResponseEntity<>(AuthResponseDto.builder().success(true).build() , HttpStatus.OK);
         }
         else{
             throw new UsernameNotFoundException("User Not Found");
