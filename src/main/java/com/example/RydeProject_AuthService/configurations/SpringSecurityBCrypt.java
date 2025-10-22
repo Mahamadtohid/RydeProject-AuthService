@@ -32,8 +32,8 @@ public class SpringSecurityBCrypt implements WebMvcConfigurer {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
        return http.csrf(AbstractHttpConfigurer::disable)
                .cors(cors -> cors.disable())
-               .authorizeHttpRequests(auth -> auth.requestMatchers("/api/v1/auth/signup/*").permitAll()
-                       .requestMatchers("/api/v1/auth/signin/*").permitAll())
+               .authorizeHttpRequests(auth -> auth.requestMatchers("/api/v1/auth/signup/**").permitAll()
+                       .requestMatchers("/api/v1/auth/signin/**" , "/api/v1/auth/validate").permitAll())
 //               .exceptionHandling()
                .build();
     }
@@ -69,6 +69,9 @@ public class SpringSecurityBCrypt implements WebMvcConfigurer {
 
     @Override
     public void addCorsMappings(CorsRegistry registry){
-        registry.addMapping("/**").allowedOriginPatterns("*").allowedMethods("GET", "POST" ,"PUT","DELETE");
+        registry.addMapping("/**")
+                .allowedOriginPatterns("*")
+                .allowedMethods("GET", "POST" ,"PUT","DELETE" , "OPTIONS")
+                .allowCredentials(true);
     }
 }
