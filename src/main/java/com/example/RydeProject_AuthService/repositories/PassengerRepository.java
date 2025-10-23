@@ -1,6 +1,6 @@
 package com.example.RydeProject_AuthService.repositories;
 
-import com.example.RydeProject_AuthService.models.Passenger;
+import com.example.RydeProject_EntityService.models.Passenger;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -8,7 +8,7 @@ import java.util.Optional;
 
 
 @Repository
-public interface PassengerRepository extends JpaRepository<Passenger , Long> {
+public interface PassengerRepository extends JpaRepository<Passenger, Long> {
 
     Optional<Passenger> findPassengerByEmail(String email);
 }

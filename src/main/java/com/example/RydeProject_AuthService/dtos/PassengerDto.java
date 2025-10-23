@@ -1,7 +1,7 @@
 package com.example.RydeProject_AuthService.dtos;
 
 
-import com.example.RydeProject_AuthService.models.Passenger;
+import com.example.RydeProject_EntityService.models.Passenger;
 import lombok.*;
 
 import java.util.Date;

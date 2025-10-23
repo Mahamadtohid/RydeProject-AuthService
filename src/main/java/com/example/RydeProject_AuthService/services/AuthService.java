@@ -3,12 +3,10 @@ package com.example.RydeProject_AuthService.services;
 
 import com.example.RydeProject_AuthService.dtos.PassengerDto;
 import com.example.RydeProject_AuthService.dtos.PassengerSignupRequestDto;
-import com.example.RydeProject_AuthService.models.Passenger;
 import com.example.RydeProject_AuthService.repositories.PassengerRepository;
+import com.example.RydeProject_EntityService.models.Passenger;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.awt.*;
 
 @Service
 public class AuthService {

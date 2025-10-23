@@ -1,8 +1,8 @@
 package com.example.RydeProject_AuthService.services;
 
 import com.example.RydeProject_AuthService.helpers.AuthPassengerDetails;
-import com.example.RydeProject_AuthService.models.Passenger;
 import com.example.RydeProject_AuthService.repositories.PassengerRepository;
+import com.example.RydeProject_EntityService.models.Passenger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

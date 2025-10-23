@@ -1,8 +1,8 @@
 package com.example.RydeProject_AuthService.helpers;
-
+//
+import com.example.RydeProject_EntityService.models.Passenger;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import com.example.RydeProject_AuthService.models.Passenger;
 
 import java.util.Collection;
 import java.util.List;
